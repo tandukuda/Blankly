@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Open Source Whiteboard</title>
+    <title>Blankly - Web Whiteboard</title>
     <style>
         body {
             margin: 0;
@@ -86,6 +86,7 @@
             background-color: rgba(0,0,0,0.5);
             justify-content: center;
             align-items: center;
+            z-index: 100;
         }
         .modal-content {
             background-color: white;
@@ -117,6 +118,41 @@
             font-size: 14px;
             opacity: 0;
             transition: opacity 0.3s;
+            z-index: 50;
+        }
+        .hidden-file-input {
+            display: none;
+        }
+        .image-preview {
+            max-width: 100%;
+            max-height: 200px;
+            margin-top: 10px;
+        }
+        .drag-hint {
+            display: none;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.1);
+            z-index: 10;
+            pointer-events: none;
+            align-items: center;
+            justify-content: center;
+        }
+        .drag-hint-text {
+            background-color: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            font-size: 18px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .paste-hint {
+            margin-top: 5px;
+            font-size: 12px;
+            color: #666;
+            text-align: center;
         }
     </style>
 </head>
@@ -133,6 +169,11 @@
                 <button id="rectangle-tool" class="tool-btn">Rectangle</button>
                 <button id="circle-tool" class="tool-btn">Circle</button>
                 <button id="line-tool" class="tool-btn">Line</button>
+            </div>
+            
+            <div class="toolbar-section">
+                <button id="image-tool" class="tool-btn">Image</button>
+                <input type="file" id="file-input" class="hidden-file-input" accept="image/*">
             </div>
             
             <div class="toolbar-section">
@@ -156,6 +197,9 @@
         
         <div class="canvas-container">
             <canvas id="canvas"></canvas>
+            <div id="drag-hint" class="drag-hint">
+                <div class="drag-hint-text">Drop image here</div>
+            </div>
         </div>
     </div>
     
@@ -185,6 +229,20 @@
         </div>
     </div>
     
+    <div id="image-modal" class="modal">
+        <div class="modal-content">
+            <h3>Add Image</h3>
+            <p>Choose an option to add an image:</p>
+            <button id="upload-image-btn" class="tool-btn">Upload from Device</button>
+            <div class="paste-hint">Press Ctrl+V (or Cmd+V) to paste from clipboard</div>
+            <div id="image-preview-container"></div>
+            <div style="margin-top: 15px;">
+                <button id="add-image-btn" class="tool-btn" disabled>Add Image</button>
+                <button id="cancel-image-btn" class="tool-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
     <div id="status-message"></div>
     
     <script>
@@ -200,6 +258,8 @@
         const rectangleTool = document.getElementById('rectangle-tool');
         const circleTool = document.getElementById('circle-tool');
         const lineTool = document.getElementById('line-tool');
+        const imageTool = document.getElementById('image-tool');
+        const fileInput = document.getElementById('file-input');
         const clearBtn = document.getElementById('clear-btn');
         const saveJpgBtn = document.getElementById('save-jpg-btn');
         const savePdfBtn = document.getElementById('save-pdf-btn');
@@ -218,6 +278,16 @@
         const addTextBtn = document.getElementById('add-text-btn');
         const cancelTextBtn = document.getElementById('cancel-text-btn');
         
+        // Image modal elements
+        const imageModal = document.getElementById('image-modal');
+        const uploadImageBtn = document.getElementById('upload-image-btn');
+        const addImageBtn = document.getElementById('add-image-btn');
+        const cancelImageBtn = document.getElementById('cancel-image-btn');
+        const imagePreviewContainer = document.getElementById('image-preview-container');
+        
+        // Drag and drop elements
+        const dragHint = document.getElementById('drag-hint');
+        
         // Status message
         const statusMessage = document.getElementById('status-message');
         
@@ -230,6 +300,7 @@
         let currentSize = 5;
         let textPosition = { x: 0, y: 0 };
         let shapeStartPos = { x: 0, y: 0 };
+        let imageToAdd = null;
         
         // History for undo/redo
         let drawingHistory = [];
@@ -249,7 +320,7 @@
         saveState();
         
         // Tool selection
-        const tools = [penTool, eraserTool, textTool, rectangleTool, circleTool, lineTool];
+        const tools = [penTool, eraserTool, textTool, rectangleTool, circleTool, lineTool, imageTool];
         
         tools.forEach(tool => {
             tool.addEventListener('click', () => {
@@ -262,6 +333,11 @@
                 else if (tool === rectangleTool) selectedTool = 'rectangle';
                 else if (tool === circleTool) selectedTool = 'circle';
                 else if (tool === lineTool) selectedTool = 'line';
+                else if (tool === imageTool) {
+                    selectedTool = 'image';
+                    imageModal.style.display = 'flex';
+                    resetImageModal();
+                }
             });
         });
         
@@ -440,13 +516,148 @@
             textModal.style.display = 'none';
         }
         
+        // Image functions
+        uploadImageBtn.addEventListener('click', () => {
+            fileInput.click();
+        });
+        
+        fileInput.addEventListener('change', (e) => {
+            if (e.target.files && e.target.files[0]) {
+                handleSelectedFile(e.target.files[0]);
+            }
+        });
+        
+        addImageBtn.addEventListener('click', addImageToCanvas);
+        
+        cancelImageBtn.addEventListener('click', () => {
+            imageModal.style.display = 'none';
+            imageToAdd = null;
+        });
+        
+        function resetImageModal() {
+            imageToAdd = null;
+            addImageBtn.disabled = true;
+            while (imagePreviewContainer.firstChild) {
+                imagePreviewContainer.removeChild(imagePreviewContainer.firstChild);
+            }
+        }
+        
+        function handleSelectedFile(file) {
+            if (!file.type.match('image.*')) {
+                showStatus('Only image files are supported');
+                return;
+            }
+            
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = new Image();
+                img.onload = () => {
+                    imageToAdd = img;
+                    displayImagePreview(img);
+                    addImageBtn.disabled = false;
+                };
+                img.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+        
+        function displayImagePreview(img) {
+            // Clear previous preview
+            while (imagePreviewContainer.firstChild) {
+                imagePreviewContainer.removeChild(imagePreviewContainer.firstChild);
+            }
+            
+            // Create preview element
+            const preview = document.createElement('img');
+            preview.src = img.src;
+            preview.classList.add('image-preview');
+            imagePreviewContainer.appendChild(preview);
+        }
+        
+        function addImageToCanvas() {
+            if (!imageToAdd) return;
+            
+            // Place the image in the center of the canvas by default
+            const x = (canvas.width - imageToAdd.width) / 2;
+            const y = (canvas.height - imageToAdd.height) / 2;
+            
+            // Draw the image
+            ctx.drawImage(imageToAdd, x, y);
+            saveState();
+            
+            // Close modal and reset
+            imageModal.style.display = 'none';
+            showStatus('Image added');
+            resetImageModal();
+        }
+        
+        // Clipboard paste support
+        document.addEventListener('paste', (e) => {
+            if (imageModal.style.display !== 'flex') return;
+            
+            const items = e.clipboardData.items;
+            
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                    const blob = items[i].getAsFile();
+                    handleSelectedFile(blob);
+                    e.preventDefault();
+                    return;
+                }
+            }
+        });
+        
+        // Drag and drop support
+        container.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            dragHint.style.display = 'flex';
+        });
+        
+        container.addEventListener('dragleave', () => {
+            dragHint.style.display = 'none';
+        });
+        
+        container.addEventListener('drop', (e) => {
+            e.preventDefault();
+            dragHint.style.display = 'none';
+            
+            if (e.dataTransfer.items) {
+                for (let i = 0; i < e.dataTransfer.items.length; i++) {
+                    if (e.dataTransfer.items[i].kind === 'file' && 
+                        e.dataTransfer.items[i].type.indexOf('image') !== -1) {
+                        const file = e.dataTransfer.items[i].getAsFile();
+                        const reader = new FileReader();
+                        
+                        reader.onload = (event) => {
+                            const img = new Image();
+                            img.onload = () => {
+                                // Get position where image was dropped
+                                const rect = canvas.getBoundingClientRect();
+                                const x = e.clientX - rect.left - (img.width / 2);
+                                const y = e.clientY - rect.top - (img.height / 2);
+                                
+                                // Draw image at drop position
+                                ctx.drawImage(img, x, y);
+                                saveState();
+                                showStatus('Image added');
+                            };
+                            img.src = event.target.result;
+                        };
+                        
+                        reader.readAsDataURL(file);
+                        break;
+                    }
+                }
+            }
+        });
+        
         // Save functions
         saveJpgBtn.addEventListener('click', saveAsJPG);
         savePdfBtn.addEventListener('click', saveAsPDF);
         
         function saveAsJPG() {
             const link = document.createElement('a');
-            link.download = 'whiteboard.jpg';
+            link.download = 'blankly.jpg';
             link.href = canvas.toDataURL('image/jpeg');
             link.click();
             showStatus('Saved as JPG');
@@ -456,7 +667,7 @@
             // This is a simplistic implementation using a data URL
             // In a real app, you might want to use a library like jsPDF
             const link = document.createElement('a');
-            link.download = 'whiteboard.pdf';
+            link.download = 'blankly.pdf';
             
             // Create a canvas with white background
             const printCanvas = document.createElement('canvas');
