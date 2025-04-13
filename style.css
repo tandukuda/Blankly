@@ -1,0 +1,160 @@
+/* Main layout styles */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    overflow: hidden;
+    }
+    
+    .container {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    }
+    
+    /* Toolbar styles */
+    .toolbar {
+    display: flex;
+    padding: 10px;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ddd;
+    gap: 10px;
+    flex-wrap: wrap;
+    }
+    
+    .toolbar-section {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-right: 1px solid #ccc;
+    padding-right: 10px;
+    margin-right: 5px;
+    }
+    
+    .toolbar-section
+     {
+    border-right: none;
+    }
+    
+    .tool-btn {
+    padding: 6px 12px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    }
+    
+    .tool-btn
+     {
+    background-color: #e9e9e9;
+    }
+    
+    .tool-btn.active {
+    background-color: #ddf;
+    border-color: #99c;
+    }
+    
+    /* Canvas styles */
+    .canvas-container {
+    flex: 1;
+    position: relative;
+    background-color: #fff;
+    overflow: hidden;
+    }
+    
+    #canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    cursor: crosshair;
+    background-color: white;
+    }
+    
+    /* Tool options styles */
+    .color-picker {
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: none;
+    cursor: pointer;
+    }
+    
+    label {
+    font-size: 14px;
+    }
+    
+    .brush-size {
+    width: 60px;
+    }
+    
+    /* Modal styles */
+    .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    }
+    
+    .modal-content {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 500px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    }
+    
+    .text-input {
+    padding: 10px;
+    font-size: 16px;
+    }
+    
+    .shape-options {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+    }
+    
+    /* Status message styles */
+    #status-message {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    padding: 8px 12px;
+    background-color: #333;
+    color: white;
+    border-radius: 4px;
+    font-size: 14px;
+    opacity: 0;
+    transition: opacity 0.3s;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+    .toolbar {
+    flex-direction: column;
+    align-items: flex-start;
+    }
+    
+    .toolbar-section {
+        border-right: none;
+        border-bottom: 1px solid #ccc;
+        padding-bottom: 8px;
+        margin-bottom: 8px;
+        width: 100%;
+    }
+    
+    .toolbar-section:last-child {
+        border-bottom: none;
+    }
+    
+    }
+    

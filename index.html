@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Blankly - Web Whiteboard</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="icon" href="assets/favicon.ico">
+</head>
+<body>
+    <div class="container">
+        <div class="toolbar">
+            <div class="toolbar-section">
+                <button id="pen-tool" class="tool-btn active">Pen</button>
+                <button id="eraser-tool" class="tool-btn">Eraser</button>
+                <button id="text-tool" class="tool-btn">Text</button>
+            </div>
+            
+            <div class="toolbar-section">
+                <button id="rectangle-tool" class="tool-btn">Rectangle</button>
+                <button id="circle-tool" class="tool-btn">Circle</button>
+                <button id="line-tool" class="tool-btn">Line</button>
+            </div>
+            
+            <div class="toolbar-section">
+                <label for="brush-color">Color:</label>
+                <input type="color" id="brush-color" class="color-picker" value="#000000">
+                
+                <label for="brush-size">Size:</label>
+                <input type="range" id="brush-size" class="brush-size" min="1" max="50" value="5">
+                <span id="size-display">5px</span>
+            </div>
+            
+            <div class="toolbar-section">
+                <button id="clear-btn" class="tool-btn">Clear All</button>
+            </div>
+            
+            <div class="toolbar-section">
+                <button id="save-jpg-btn" class="tool-btn">Save as JPG</button>
+                <button id="save-pdf-btn" class="tool-btn">Save as PDF</button>
+            </div>
+        </div>
+        
+        <div class="canvas-container">
+            <canvas id="canvas"></canvas>
+        </div>
+    </div>
+    
+    <div id="text-modal" class="modal">
+        <div class="modal-content">
+            <h3>Add Text</h3>
+            <input type="text" id="text-input" class="text-input" placeholder="Enter your text">
+            <div>
+                <label for="text-size">Font Size:</label>
+                <input type="range" id="text-size" min="10" max="72" value="24">
+                <span id="text-size-display">24px</span>
+            </div>
+            <div>
+                <label for="text-font">Font:</label>
+                <select id="text-font">
+                    <option value="Arial">Arial</option>
+                    <option value="Times New Roman">Times New Roman</option>
+                    <option value="Courier New">Courier New</option>
+                    <option value="Georgia">Georgia</option>
+                    <option value="Verdana">Verdana</option>
+                </select>
+            </div>
+            <div>
+                <button id="add-text-btn" class="tool-btn">Add Text</button>
+                <button id="cancel-text-btn" class="tool-btn">Cancel</button>
+            </div>
+        </div>
+    </div>
+    
+    <div id="status-message"></div>
+    
+    <script src="js/app.js"></script>
+</body>
+</html>
