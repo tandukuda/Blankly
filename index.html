@@ -154,28 +154,44 @@
             color: #666;
             text-align: center;
         }
-        .github-link {
+        .top-buttons {
     position: absolute;
     top: 10px;
     right: 10px;
     display: flex;
+    gap: 10px;
+    z-index: 10;
+}
+
+.github-link, .donate-link {
+    display: flex;
     align-items: center;
     gap: 6px;
     padding: 6px 12px;
-    background-color: #24292e;
     color: white;
     border-radius: 4px;
     text-decoration: none;
     font-size: 14px;
-    z-index: 10;
     transition: background-color 0.2s;
+}
+
+.github-link {
+    background-color: #24292e;
 }
 
 .github-link:hover {
     background-color: #1a1e22;
 }
 
-.github-icon {
+.donate-link {
+    background-color: #e91e63;
+}
+
+.donate-link:hover {
+    background-color: #c2185b;
+}
+
+.github-icon, .donate-icon {
     width: 20px;
     height: 20px;
 }
@@ -183,12 +199,20 @@
 </head>
 <body>
     <div class="container">
-        <a href="https://github.com/tandukuda/blankly" class="github-link" target="_blank">
-    <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
-    </svg>
-    View on GitHub
-</a>
+        <div class="top-buttons">
+    <a href="https://github.com/tandukuda/blankly" class="github-link" target="_blank">
+        <svg class="github-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path>
+        </svg>
+        View on GitHub
+    </a>
+    <a href="https://ko-fi.com/tandukuda" class="donate-link" target="_blank">
+        <svg class="donate-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"></path>
+        </svg>
+        Support Project
+    </a>
+</div>
         <div class="toolbar">
             <div class="toolbar-section">
                 <button id="pen-tool" class="tool-btn active">Pen</button>
