@@ -67,11 +67,14 @@ cd blankly
 npm install
 npm run dev
 ```
+---
 
 ## 🤝 Contributing
 
 Pull requests and contributions are always welcome 🙌
 Feel free to fork the project and make it yours. Check the [issues](https://github.com/tandukuda/Blankly/issues) tab for open bugs or ideas.
+
+---
 
 ## 📄 License
 
