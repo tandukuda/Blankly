@@ -66,3 +66,14 @@ git clone https://github.com/tandukuda/blankly.git
 cd blankly
 npm install
 npm run dev
+```
+
+## 🤝 Contributing
+
+Pull requests and contributions are always welcome 🙌
+Feel free to fork the project and make it yours. Check the [issues](https://github.com/tandukuda/Blankly/issues) tab for open bugs or ideas.
+
+## 📄 License
+
+MIT License – Use it, remix it, ship it. Just credit the project.
+Made with 🖤 by [@tandukuda](https://github.com/tandukuda/)
