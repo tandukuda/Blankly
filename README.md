@@ -76,6 +76,13 @@ Feel free to fork the project and make it yours. Check the [issues](https://gith
 
 ---
 
+### ☕ Support the Project
+If you enjoy using Blankly and want to support its development, consider donating:
+
+👉 [ko-fi.com/tandukuda](https://ko-fi.com/tandukuda)
+
+---
+
 ## 📄 License
 
 MIT License – Use it, remix it, ship it. Just credit the project.
