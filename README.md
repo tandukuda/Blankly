@@ -63,13 +63,15 @@ npm run dev
 ```
 ---
 
-## 🤖 Built with AI, Directed by Curiosity
+## 🤖 Built with AI, Driven by a Desire to Learn
 
-This project was built using [**Claude AI**](https://claude.ai/) as my coding assistant. I'm not a programmer by background — just someone with an idea, a curiosity to explore, and the willingness to learn by building.
+I'm not a programmer by background — but I’ve always wanted to learn how to code. **Blankly** is my first step into that journey.
 
-Claude handled the code, and I handled the product direction, interaction design, and decision-making. Blankly is my way of showing that you don't need to be an expert developer to make tools that others can use and enjoy.
+I built this project with the help of [**Claude AI as my coding assistant**](http://claude.ai/), learning by doing — asking questions, tweaking code, breaking things (a lot), and figuring out how to fix them. It’s my way of learning how software is built by actually building something I’d use myself.
 
-If you're curious about how I built it, feel free to explore the codebase, ask questions, or fork it to create something of your own.
+Claude handled most of the code, but I made the decisions, tested interactions, and shaped the product vision. This isn’t just a whiteboard — it’s my learning playground.
+
+If you’re like me and curious about code, I hope this repo gives you the courage to start your own thing too.
 
 ---
 
