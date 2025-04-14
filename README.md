@@ -2,9 +2,7 @@
 
 **Blankly** is a minimalist, open-source whiteboard built for ideation, sketching, planning, and real-time collaboration. Whether you're brainstorming alone or working with a team, Blankly gives you a blank canvas that feels fast, intuitive, and fun.
 
-> ✨ Made with simplicity in mind — no sign-up required, just draw and go.
-
-![blankly-demo](./assets/blankly-demo.gif)
+> ✨ Made with simplicity in mind — no sign-up required, draw and go.
 
 ---
 
@@ -14,11 +12,7 @@
 - 🧼 **Eraser Tool** – Clean up your canvas with ease.
 - 🔲 **Shape Tools** – Add rectangles, circles, and lines.
 - 🅰️ **Text Tool** – Drop in text anywhere on your board.
-- 🖼️ **Image Tool** – Upload or paste images directly from clipboard.
-- 🖐️ **Move Tool** – Pan and zoom the entire canvas.
-- 📸 **Image Transform** – Move and scale added images.
-- 🌙 **Dark Mode** – Work late in style (auto or manual toggle).
-- 🔁 **Undo / Redo** – Go back and forth through your actions.
+- 🖼️ **Image Tool** – Upload or paste images directly from the clipboard.
 - 📝 **Export** – Save your board as JPG or PDF.
 - 🧩 **Extensible** – Built to be extended. Fork it. Hack it.
 
